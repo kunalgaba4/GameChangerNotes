@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.goodcompany.gamechangernotes.R;
 
-public class Notes extends AppCompatActivity {
+public class AddNoteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes);
+        setContentView(R.layout.activity_add_note);
     }
 }

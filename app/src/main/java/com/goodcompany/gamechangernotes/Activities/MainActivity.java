@@ -227,4 +227,11 @@ public class MainActivity extends AppCompatActivity implements OnListItemClickLi
     public void onListAllChecked(boolean isAllChecked) {
 
     }
+
+    @Override
+    public void onItemClicked(String id, int adapterPos) {
+        Intent intentToNote = new Intent(mContext, NotesActivity.class);
+        intentToNote.putExtra("SubjectName", savedSubjectsArraylist.get(adapterPos).getSubjectName());
+        startActivity(intentToNote);
+    }
 }

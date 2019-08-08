@@ -1,40 +1,31 @@
 package com.goodcompany.gamechangernotes.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.goodcompany.gamechangernotes.Activities.NotesActivity;
 import com.goodcompany.gamechangernotes.Listeners.OnListItemClickListeners;
-import com.goodcompany.gamechangernotes.Modals.Subject;
+import com.goodcompany.gamechangernotes.Modals.Note;
 import com.goodcompany.gamechangernotes.R;
 
 import java.util.ArrayList;
 
-
-/**
- * Created by iapp on 8/8/18.
- */
-
-public class ListDescriptionAdapter extends RecyclerView.Adapter<ListDescriptionAdapter.ListDescriptionVieHolder> {
+public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder> {
     private Context mContext;
     OnListItemClickListeners onListItemClickListeners;
-    ArrayList<Subject> categories;
+    ArrayList<Note> categories;
     private boolean isSelectedAll;
     private int checkCount;
 
 
-    public ListDescriptionAdapter(Context mContext, ArrayList subjectList, OnListItemClickListeners onListItemClickListeners) {
+    public NotesListAdapter(Context mContext, ArrayList subjectList, OnListItemClickListeners onListItemClickListeners) {
         this.categories = subjectList;
         this.mContext = mContext;
         this.onListItemClickListeners = onListItemClickListeners;
@@ -42,13 +33,13 @@ public class ListDescriptionAdapter extends RecyclerView.Adapter<ListDescription
 
     @NonNull
     @Override
-    public ListDescriptionAdapter.ListDescriptionVieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NotesListAdapter.NotesListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(mContext).inflate(R.layout.custom_list_desc_row, parent, false);
-        return new ListDescriptionAdapter.ListDescriptionVieHolder(rootView);
+        return new NotesListAdapter.NotesListViewHolder(rootView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ListDescriptionAdapter.ListDescriptionVieHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final NotesListAdapter.NotesListViewHolder holder, final int position) {
         holder.title_tv.setText(categories.get(position).getSubjectName());
         holder.title_tv.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "fonts/SF-UI-DISPLAY-BOLD.OTF"));
 
@@ -103,12 +94,12 @@ public class ListDescriptionAdapter extends RecyclerView.Adapter<ListDescription
 //        return idsBuilder;
 //    }
 
-    public class ListDescriptionVieHolder extends RecyclerView.ViewHolder {
+    public class NotesListViewHolder extends RecyclerView.ViewHolder {
         private TextView title_tv;
         private CheckBox checkBox;
         private ImageView delete_iv, edit_iv;
 
-        public ListDescriptionVieHolder(final View itemView) {
+        public NotesListViewHolder(final View itemView) {
             super(itemView);
             title_tv = itemView.findViewById(R.id.title_tv);
             checkBox = itemView.findViewById(R.id.desc_check_box);
@@ -138,24 +129,17 @@ public class ListDescriptionAdapter extends RecyclerView.Adapter<ListDescription
 //
 //            });
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onListItemClickListeners.onItemClicked("",getAdapterPosition());
-                }
-            });
-
             delete_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onListItemClickListeners.onListItemDelted("" + categories.get(getAdapterPosition()).getSubjectId(), getAdapterPosition());
+                    onListItemClickListeners.onListItemDelted("" + categories.get(getAdapterPosition()).getNoteId(), getAdapterPosition());
                 }
             });
 
             edit_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onListItemClickListeners.onListItemEdited("" + categories.get(getAdapterPosition()).getSubjectId(), getAdapterPosition(), "");
+                    onListItemClickListeners.onListItemEdited("" + categories.get(getAdapterPosition()).getNoteId(), getAdapterPosition(), "");
                 }
             });
         }
