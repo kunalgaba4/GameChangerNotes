@@ -4,12 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddNote">
+    tools:context=".Activities.AddNoteActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/dash_parent_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/five_dp"
+        android:layout_marginRight="@dimen/five_dp"
+        android:layout_marginTop="@dimen/five_dp">
+
+        <TextView
+            android:id="@+id/dashboard_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:letterSpacing="0.05"
+            android:padding="@dimen/ten_dp"
+            android:text="Add Note"
+            android:textColor="@android:color/black"
+            android:textSize="29sp" />
+
+        <ImageView
+            android:id="@+id/settings_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/ten_dp"
+            android:src="@drawable/setting" />
+    </RelativeLayout>
+
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/dash_parent_rl">
 
         <EditText
             android:id="@+id/txtNoteTitle"

@@ -34,13 +34,13 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
     @NonNull
     @Override
     public NotesListAdapter.NotesListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(mContext).inflate(R.layout.custom_list_desc_row, parent, false);
+        View rootView = LayoutInflater.from(mContext).inflate(R.layout.custom_notes_row, parent, false);
         return new NotesListAdapter.NotesListViewHolder(rootView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final NotesListAdapter.NotesListViewHolder holder, final int position) {
-        holder.title_tv.setText(categories.get(position).getSubjectName());
+        holder.title_tv.setText(categories.get(position).getNoteTitle());
         holder.title_tv.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "fonts/SF-UI-DISPLAY-BOLD.OTF"));
 
 //        if (categories.get(position).getChecked()) {
@@ -128,6 +128,13 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
 //                }
 //
 //            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onListItemClickListeners.onItemClicked("",getAdapterPosition());
+                }
+            });
 
             delete_iv.setOnClickListener(new View.OnClickListener() {
                 @Override

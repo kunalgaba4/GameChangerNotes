@@ -1,8 +1,11 @@
 package com.goodcompany.gamechangernotes.Activities;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,22 +65,25 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
         setContentView(R.layout.activity_notes);
         ButterKnife.bind(this);
         mContext = NotesActivity.this;
+
+
+
         if (getIntent().getExtras() != null){
             subjectName = getIntent().getExtras().get("SubjectName").toString();
+            dashboardTv.setText(subjectName);
         }
 
         if (subjectName != null){
             SubjectSingleton.getInstance().setSubjectName(subjectName);
-            savedNoteArrayList = dbNote.getNoteOfSubject(this, subjectName);
         }else{
             subjectName = SubjectSingleton.getInstance().getSubjectName();
-            savedNoteArrayList = dbNote.getNoteOfSubject(this, subjectName);
         }
         setupDescAdapter();
     }
 
 
     private void setupDescAdapter() {
+        savedNoteArrayList = dbNote.getNoteOfSubject(this, subjectName);
         notesListAdapter = new NotesListAdapter(mContext, savedNoteArrayList, this);
         linearLayoutManager = new LinearLayoutManager(mContext);
         categoriesRv.setLayoutManager(linearLayoutManager);
@@ -96,13 +102,54 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
                 Bundle b = new Bundle();
                 b.putString("subjectName", subjectName);
                 intentToNote.putExtras(b);
-                startActivity(intentToNote);
+                startActivityForResult(intentToNote, 45);
                 break;
         }
     }
 
     @Override
-    public void onListItemDelted(String id, int adapterPos) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 45){
+            if (resultCode == Activity.RESULT_OK){
+                if (notesListAdapter!=null){
+                    setupDescAdapter();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onListItemDelted(String id, final int adapterPos) {
+        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(mContext);
+        alertDialogBuilder.setTitle("Do you really want to delete this note");
+        alertDialogBuilder.setCancelable(true);
+
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(), "No Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                dbNote.deleteNote(savedNoteArrayList.get(adapterPos));
+                //Delete all the notes in this subject here.
+                setupDescAdapter();
+            }
+        });
+
+
+
+        android.app.AlertDialog mAlertDialog = alertDialogBuilder.create();
+        mAlertDialog.show();
+
 
     }
 
@@ -119,5 +166,11 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
     @Override
     public void onItemClicked(String id, int adapterPos) {
 
+        Intent intentToEditNote = new Intent(getApplicationContext(), AddNoteActivity.class);
+        Bundle editNoteBundle = new Bundle();
+        editNoteBundle.putBoolean("isEdit", true);
+        editNoteBundle.putSerializable("NoteData", savedNoteArrayList.get(adapterPos));
+        intentToEditNote.putExtras(editNoteBundle);
+        startActivity(intentToEditNote);
     }
 }

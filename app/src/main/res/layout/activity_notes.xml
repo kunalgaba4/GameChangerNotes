@@ -36,7 +36,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/ten_dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:src="@drawable/setting" />
         </RelativeLayout>
 
@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/five_dp"
             android:layout_marginRight="@dimen/five_dp"
+            android:visibility="gone"
             android:layout_below="@id/dash_parent_rl"
             />
 
