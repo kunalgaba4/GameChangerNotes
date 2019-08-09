@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements OnListItemClickLi
     }
 
     public void showDialogForDelete(final int i1) {
-        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(mContext);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
         alertDialogBuilder.setTitle("Do you really want to delete this Subject, All notes will be deleted!!!");
         alertDialogBuilder.setCancelable(true);
 
@@ -214,12 +214,46 @@ public class MainActivity extends AppCompatActivity implements OnListItemClickLi
 
 
 
-        android.app.AlertDialog mAlertDialog = alertDialogBuilder.create();
+        AlertDialog mAlertDialog = alertDialogBuilder.create();
         mAlertDialog.show();
     }
 
     @Override
-    public void onListItemEdited(String id, int adapterPos, String item_name) {
+    public void onListItemEdited(String id, final int adapterPos, String item_name) {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+        alertDialogBuilder.setTitle("Do you really want to delete this Subject, All notes will be deleted!!!");
+        alertDialogBuilder.setCancelable(true);
+
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(), "No Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                Subject subject = new Subject();
+                subject = savedSubjectsArraylist.get(adapterPos);
+
+                dbSubject.deleteSubject(savedSubjectsArraylist.get(adapterPos));
+                dbNote.deleteNoteWithSubject((savedSubjectsArraylist.get(adapterPos)));
+
+                //Delete all the notes in this subject here.
+                setupDescAdapter();
+                listDescriptionAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+
+        AlertDialog mAlertDialog = alertDialogBuilder.create();
+        mAlertDialog.show();
 
     }
 

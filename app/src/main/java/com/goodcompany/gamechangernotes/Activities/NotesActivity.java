@@ -155,7 +155,6 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
 
     @Override
     public void onListItemEdited(String id, int adapterPos, String item_name) {
-
     }
 
     @Override
