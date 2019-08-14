@@ -135,7 +135,6 @@ public class DBNote {
     }
 
     public ArrayList<Note> getNoteByDate (Context context){
-
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase database = dbHelper.getReadableDatabase();
 

@@ -24,8 +24,11 @@ import com.goodcompany.gamechangernotes.Listeners.OnListItemClickListeners;
 import com.goodcompany.gamechangernotes.Modals.Note;
 import com.goodcompany.gamechangernotes.R;
 import com.goodcompany.gamechangernotes.Singelton.SubjectSingleton;
+import com.goodcompany.gamechangernotes.Utils.ShadowLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +63,15 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
     TextView noEventTv;
     @BindView(R.id.can_add_event_tv)
     TextView canAddEventTv;
+    @BindView(R.id.spinner_sl)
+    ShadowLayout spinnerSl;
+    @BindView(R.id.mdw_view_tv)
+    TextView mdwViewTv;
+    @BindView(R.id.spinner_parent_rl1)
+    RelativeLayout spinnerParentRl1;
+
     private NotesListAdapter notesListAdapter;
+    private int clickCount = 0;
 
 
     @Override
@@ -88,11 +99,11 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
     private void setupDescAdapter() {
         savedNoteArrayList.clear();
         savedNoteArrayList = dbNote.getNoteOfSubject(this, subjectName);
-        if (savedNoteArrayList.size() > 0){
+        if (savedNoteArrayList.size() > 0) {
             noEventIv.setVisibility(View.INVISIBLE);
             noEventTv.setVisibility(View.INVISIBLE);
             canAddEventTv.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             noEventIv.setVisibility(View.VISIBLE);
             noEventTv.setVisibility(View.VISIBLE);
             canAddEventTv.setVisibility(View.VISIBLE);
@@ -107,6 +118,12 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.settings_iv:
+                Collections.sort(savedNoteArrayList, new Comparator<Note>() {
+                    public int compare(Note o1, Note o2) {
+                        return o1.getDateTime().compareTo(o2.getDateTime());
+                    }
+                });
+                notesListAdapter.notifyDataSetChanged();
                 break;
             case R.id.etSearch:
                 break;
@@ -190,4 +207,37 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
         notesListAdapter.filter(text);
         return false;
     }
+
+    @OnClick(R.id.spinner_sl)
+    public void onViewClicked() {
+
+//        clickCount++;
+//        if (clickCount == 0) {
+//            setupOrderByDate();
+//        } else if (clickCount == 1) {
+//            setupOrderByTitle();
+//        } else if (clickCount == 2) {
+//            setupOrderByDesc();
+//            clickCount = -1;
+//
+//        }
+    }
+
+//    private void setupOrderByDesc() {
+//        spinnerParentRl1.setBackgroundResource(R.drawable.custom_daily_view_background);
+//        spinnerSl.setShadowColor(getResources().getColor(R.color.daily_view_shadow));
+//        mdwViewTv.setText("By Desc");
+//    }
+//
+//    private void setupOrderByTitle() {
+//        spinnerParentRl1.setBackgroundResource(R.drawable.custom_daily_view_background);
+//        spinnerSl.setShadowColor(getResources().getColor(R.color.daily_view_shadow));
+//        mdwViewTv.setText("By Title");
+//    }
+//
+//    private void setupOrderByDate() {
+//        spinnerParentRl1.setBackgroundResource(R.drawable.custom_daily_view_background);
+//        spinnerSl.setShadowColor(getResources().getColor(R.color.daily_view_shadow));
+//        mdwViewTv.setText("By Date");
+//    }
 }
