@@ -350,16 +350,13 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
     private void setupRecyclerView() {
 
         ArrayList<String> noteImgNames = new ArrayList<>();
-
         // set up the RecyclerView
-
         if (!isEdit){
             if (mImgIds.size() > 0){
 
                 for (int i = 0; i < mImgIds.size(); i++) {
                     noteImgNames.add("");
-                    LinearLayoutManager horizontalLayoutManager
-                            = new LinearLayoutManager(AddNote.this, LinearLayoutManager.HORIZONTAL, false);
+                    LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(AddNote.this, LinearLayoutManager.HORIZONTAL, false);
                     recyclerView.setLayoutManager(horizontalLayoutManager);
                     adapter = new MyRecyclerViewAdapter(this, mImgIds, noteImgNames);
                     adapter.setClickListener(this);
@@ -373,11 +370,9 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
             }
 
             if (mImgIds.size() > 0){
-
                 for (int i = 0; i < mImgIds.size(); i++) {
                     noteImgNames.add("");
-                    LinearLayoutManager horizontalLayoutManager
-                            = new LinearLayoutManager(AddNote.this, LinearLayoutManager.HORIZONTAL, false);
+                    LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(AddNote.this, LinearLayoutManager.HORIZONTAL, false);
                     recyclerView.setLayoutManager(horizontalLayoutManager);
                     adapter = new MyRecyclerViewAdapter(this, mImgIds, noteImgNames);
                     adapter.setClickListener(this);
@@ -394,13 +389,7 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
         Bitmap myBitmap = null;
 
         if(imgFile.exists()){
-
             myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-
-//            ImageView myImage = (ImageView) findViewById(R.id.imageviewTest);
-
-//            myImage.setImageBitmap(myBitmap);
-
         }
         return  myBitmap;
 
@@ -410,33 +399,31 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
     // create an action bar button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
 
     }
 
-    // handle action bar button activitiy
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        String imageURL = "";
-//
-////        if (id == R.id.menu_save) {  // save button click
-////            // do something here
-////
-////            Toast.makeText(getApplicationContext(), "Audio url: " + audioSingleton.getAudioUrl(), Toast.LENGTH_LONG).show();
-////
-////            if (mImgIds.size() > 0){
-////                Toast.makeText(this, "Array size: " + mImgIds.size(), Toast.LENGTH_SHORT).show();
-////                for (int i=0; i<mImgIds.size(); i++) {
-////                    imageURL = saveImage(mImgIds.get(i));
-////                    myImagesUrl.add(imageURL);
-//////                    Toast.makeText(getApplicationContext(), myImagesUrl.get(i), Toast.LENGTH_LONG).show();
-////                }
-////            }
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        String imageURL = "";
+
+        if (id == R.id.menu_save) {  // save button click
+            // do something here
+            Toast.makeText(getApplicationContext(), "Audio url: " + audioSingleton.getAudioUrl(), Toast.LENGTH_LONG).show();
+
+            if (mImgIds.size() > 0){
+                Toast.makeText(this, "Array size: " + mImgIds.size(), Toast.LENGTH_SHORT).show();
+                for (int i=0; i<mImgIds.size(); i++) {
+                    imageURL = saveImage(mImgIds.get(i));
+                    myImagesUrl.add(imageURL);
+//                    Toast.makeText(getApplicationContext(), myImagesUrl.get(i), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 
