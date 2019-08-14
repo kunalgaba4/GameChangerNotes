@@ -395,12 +395,12 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
 //        finish();
     }
 
-//    public void mapButtonClick(View view) {
-//        Intent intent = new Intent(AddNote.this, ShowUserLocationActivity.class);
-//        Toast.makeText(this, recentLatLng.latitude + " "+ recentLatLng.longitude, Toast.LENGTH_LONG).show();
-//        intent.putExtra("Latlng", recentLatLng);
-//        startActivity(intent);
-//    }
+    public void mapButtonClick(View view) {
+        Intent intent = new Intent(AddNote.this, ShowUserLocationActivity.class);
+        Toast.makeText(this, recentLatLng.latitude + " "+ recentLatLng.longitude, Toast.LENGTH_LONG).show();
+        intent.putExtra("Latlng", recentLatLng);
+        startActivity(intent);
+    }
 
     public void cameraButtonClick(View view) {
         takePhotoFromCamera();
