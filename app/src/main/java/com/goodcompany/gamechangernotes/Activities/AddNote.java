@@ -67,6 +67,7 @@ import java.util.List;
 
 public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
+    //New B
     private static final String IMAGE_DIRECTORY = "/dailynote";
     private int GALLERY = 1, CAMERA = 2;
     Button saveNote;
