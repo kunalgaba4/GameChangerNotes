@@ -64,9 +64,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener{
 
@@ -120,9 +117,9 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
-        saveNote = (Button) findViewById(R.id.saveNote);
-        txtNoteTitle = (EditText) findViewById(R.id.txtNoteTitle);
-        txtNoteContent = (EditText) findViewById(R.id.txtNoteContent);
+        saveNote =  findViewById(R.id.saveNote);
+        txtNoteTitle = findViewById(R.id.txtNoteTitle);
+        txtNoteContent =  findViewById(R.id.txtNoteContent);
 
         recyclerView = findViewById(R.id.rvAnimals);
 
@@ -184,7 +181,6 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
         setupRecyclerView();
 
         audioSingleton = AudioSingleton.getInstance();
-//        Toast.makeText(AddNote.this, "Audio" + audioSingleton.getAudioUrl(), Toast.LENGTH_SHORT).show();
         Toast.makeText(AddNote.this, "Name "+ subjectName, Toast.LENGTH_SHORT).show();
 
     }
@@ -194,10 +190,6 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
         String strDate = sdf.format(new Date()); // pass date that get from database
 
         if (isEdit == true){
-
-//            Note note = new Note();
-            Toast.makeText(AddNote.this, "Name "+ subjectName, Toast.LENGTH_SHORT).show();
-
             noteIsEdit.setSubjectName(subjectName);
             noteIsEdit.setNoteTitle(txtNoteTitle.getText().toString());
             noteIsEdit.setNoteContent(txtNoteContent.getText().toString());
@@ -308,19 +300,16 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
     private void getDeviceLocation(){
 
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
-
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(AddNote.this);
 
         try{
             if(mLocationPermissionsGranted){
-
                 final Task<Location> location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location!");
-
                             Location currentLocation = (Location) task.getResult();
                             Toast.makeText(getApplicationContext(), "Longitude" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
@@ -342,18 +331,15 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
         latitude = latLng.latitude;
         longitude = latLng.longitude;
         recentLatLng = latLng;
-
     }
 
 
 
     private void setupRecyclerView() {
-
         ArrayList<String> noteImgNames = new ArrayList<>();
         // set up the RecyclerView
         if (!isEdit){
             if (mImgIds.size() > 0){
-
                 for (int i = 0; i < mImgIds.size(); i++) {
                     noteImgNames.add("");
                     LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(AddNote.this, LinearLayoutManager.HORIZONTAL, false);
@@ -364,7 +350,6 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
                 }
             }
         }else{
-//            mImgIds.clear();
             for (int i = 0; i < myImagesUrl.size(); i++) {
                 mImgIds.add(returnImageBitmap(myImagesUrl.get(i)));
             }
@@ -418,7 +403,6 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
                 for (int i=0; i<mImgIds.size(); i++) {
                     imageURL = saveImage(mImgIds.get(i));
                     myImagesUrl.add(imageURL);
-//                    Toast.makeText(getApplicationContext(), myImagesUrl.get(i), Toast.LENGTH_LONG).show();
                 }
             }
         }
