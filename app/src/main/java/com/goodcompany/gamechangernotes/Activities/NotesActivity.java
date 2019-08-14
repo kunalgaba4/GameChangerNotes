@@ -1,6 +1,7 @@
 package com.goodcompany.gamechangernotes.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,10 +15,10 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.goodcompany.gamechangernotes.Adapters.ListDescriptionAdapter;
 import com.goodcompany.gamechangernotes.Adapters.NotesListAdapter;
 import com.goodcompany.gamechangernotes.Database.DBNote;
 import com.goodcompany.gamechangernotes.Listeners.OnListItemClickListeners;
@@ -31,8 +32,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NotesActivity extends AppCompatActivity implements OnListItemClickListeners {
-    ArrayList<Note> savedNoteArrayList = new ArrayList<>();
+public class NotesActivity extends AppCompatActivity implements OnListItemClickListeners, SearchView.OnQueryTextListener {
+    public ArrayList<Note> savedNoteArrayList = new ArrayList<>();
     @BindView(R.id.dashboard_tv)
     TextView dashboardTv;
     @BindView(R.id.settings_iv)
@@ -40,7 +41,7 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
     @BindView(R.id.dash_parent_rl)
     RelativeLayout dashParentRl;
     @BindView(R.id.etSearch)
-    EditText etSearch;
+    SearchView etSearch;
     @BindView(R.id.categories_rv)
     RecyclerView categoriesRv;
     @BindView(R.id.add_event_iv)
@@ -54,9 +55,13 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
     String subjectName;
     DBNote dbNote = new DBNote(this);
     LinearLayoutManager linearLayoutManager;
+    @BindView(R.id.no_event_iv)
+    ImageView noEventIv;
+    @BindView(R.id.no_event_tv)
+    TextView noEventTv;
+    @BindView(R.id.can_add_event_tv)
+    TextView canAddEventTv;
     private NotesListAdapter notesListAdapter;
-    String[] notes = {"I love Maths", "I love English", "I love Science", "I love Coding"};
-
 
 
     @Override
@@ -66,24 +71,32 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
         ButterKnife.bind(this);
         mContext = NotesActivity.this;
 
-
-
-        if (getIntent().getExtras() != null){
+        if (getIntent().getExtras() != null) {
             subjectName = getIntent().getExtras().get("SubjectName").toString();
             dashboardTv.setText(subjectName);
         }
 
-        if (subjectName != null){
+        if (subjectName != null) {
             SubjectSingleton.getInstance().setSubjectName(subjectName);
-        }else{
+        } else {
             subjectName = SubjectSingleton.getInstance().getSubjectName();
         }
+        etSearch.setOnQueryTextListener(this);
         setupDescAdapter();
     }
 
 
     private void setupDescAdapter() {
         savedNoteArrayList = dbNote.getNoteOfSubject(this, subjectName);
+        if (savedNoteArrayList.size() > 0){
+            noEventIv.setVisibility(View.INVISIBLE);
+            noEventTv.setVisibility(View.INVISIBLE);
+            canAddEventTv.setVisibility(View.INVISIBLE);
+        }else {
+            noEventIv.setVisibility(View.VISIBLE);
+            noEventTv.setVisibility(View.VISIBLE);
+            canAddEventTv.setVisibility(View.VISIBLE);
+        }
         notesListAdapter = new NotesListAdapter(mContext, savedNoteArrayList, this);
         linearLayoutManager = new LinearLayoutManager(mContext);
         categoriesRv.setLayoutManager(linearLayoutManager);
@@ -98,7 +111,7 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
             case R.id.etSearch:
                 break;
             case R.id.add_event_iv:
-                Intent intentToNote = new Intent(getApplicationContext(), AddNoteActivity.class);
+                Intent intentToNote = new Intent(getApplicationContext(), AddNote.class);
                 Bundle b = new Bundle();
                 b.putString("subjectName", subjectName);
                 intentToNote.putExtras(b);
@@ -110,10 +123,9 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 45){
-            if (resultCode == Activity.RESULT_OK){
-                if (notesListAdapter!=null){
+        if (requestCode == 45) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (notesListAdapter != null) {
                     setupDescAdapter();
                 }
             }
@@ -122,23 +134,20 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
 
     @Override
     public void onListItemDelted(String id, final int adapterPos) {
-        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(mContext);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
         alertDialogBuilder.setTitle("Do you really want to delete this note");
         alertDialogBuilder.setCancelable(true);
 
-        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener()
-        {
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(getApplicationContext(), "No Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
-        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
-        {
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
+            public void onClick(DialogInterface dialogInterface, int i) {
                 dbNote.deleteNote(savedNoteArrayList.get(adapterPos));
                 //Delete all the notes in this subject here.
                 setupDescAdapter();
@@ -146,8 +155,7 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
         });
 
 
-
-        android.app.AlertDialog mAlertDialog = alertDialogBuilder.create();
+        AlertDialog mAlertDialog = alertDialogBuilder.create();
         mAlertDialog.show();
 
 
@@ -165,11 +173,23 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
     @Override
     public void onItemClicked(String id, int adapterPos) {
 
-        Intent intentToEditNote = new Intent(getApplicationContext(), AddNoteActivity.class);
+        Intent intentToEditNote = new Intent(getApplicationContext(), AddNote.class);
         Bundle editNoteBundle = new Bundle();
         editNoteBundle.putBoolean("isEdit", true);
         editNoteBundle.putSerializable("NoteData", savedNoteArrayList.get(adapterPos));
         intentToEditNote.putExtras(editNoteBundle);
         startActivity(intentToEditNote);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        String text = s;
+        notesListAdapter.filter(text);
+        return false;
     }
 }

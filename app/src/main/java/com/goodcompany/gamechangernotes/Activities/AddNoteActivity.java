@@ -23,6 +23,7 @@ import com.goodcompany.gamechangernotes.Modals.Image;
 import com.goodcompany.gamechangernotes.Modals.Note;
 import com.goodcompany.gamechangernotes.R;
 import com.goodcompany.gamechangernotes.Singelton.SubjectSingleton;
+import com.goodcompany.gamechangernotes.Utils.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -169,7 +170,6 @@ public class AddNoteActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.saveNote:
-
                 if (isEdit){
                     //UPDATE Database
                     dbNote.updateNote(populateDataNote());
@@ -195,6 +195,8 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
     public void cameraButtonClick(View view) {
+        Intent i = new Intent(this, SelectImage.class);
+        startActivityForResult(i, Constants.REQUEST_CODE_FROM_FACE_CHOOSE);
     }
 
     public void galleryButtonClick(View view) {

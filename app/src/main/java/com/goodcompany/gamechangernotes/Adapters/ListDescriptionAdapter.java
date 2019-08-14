@@ -52,7 +52,8 @@ public class ListDescriptionAdapter extends RecyclerView.Adapter<ListDescription
         holder.title_tv.setText(categories.get(position).getSubjectName());
         holder.title_tv.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "fonts/SF-UI-DISPLAY-BOLD.OTF"));
 
-//        if (categories.get(position).getChecked()) {
+
+//        if (notesArray.get(position).getChecked()) {
 //            holder.checkBox.setChecked(true);
 //        } else {
 //            holder.checkBox.setChecked(false);
@@ -83,19 +84,19 @@ public class ListDescriptionAdapter extends RecyclerView.Adapter<ListDescription
 
 //    public void selectAll() {
 //        isSelectedAll = true;
-//        for (int i = 0; i < categories.size(); i++) {
-//            categories.get(i).setChecked(true);
+//        for (int i = 0; i < notesArray.size(); i++) {
+//            notesArray.get(i).setChecked(true);
 //            checkCount++;
 //        }
 //        notifyDataSetChanged();
-//        checkCount= categories.size();
+//        checkCount= notesArray.size();
 //    }
 
 //    public StringBuilder getCheckItemsId() {
 //        StringBuilder idsBuilder = new StringBuilder();
-//        for (int i = 0; i < categories.size(); i++) {
-//            if (categories.get(i).getChecked()) {
-//                idsBuilder.append(",").append(categories.get(i).getId());
+//        for (int i = 0; i < notesArray.size(); i++) {
+//            if (notesArray.get(i).getChecked()) {
+//                idsBuilder.append(",").append(notesArray.get(i).getId());
 //            }
 //        }
 //        idsBuilder.deleteCharAt(0);
@@ -114,22 +115,23 @@ public class ListDescriptionAdapter extends RecyclerView.Adapter<ListDescription
             checkBox = itemView.findViewById(R.id.desc_check_box);
             delete_iv = itemView.findViewById(R.id.delete_iv);
             edit_iv = itemView.findViewById(R.id.edit_iv);
+
 //            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //                @Override
 //                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                    if (categories.get(getAdapterPosition()).getChecked()) {
+//                    if (notesArray.get(getAdapterPosition()).getChecked()) {
 //                        checkBox.setChecked(false);
-//                        categories.get(getAdapterPosition()).setChecked(false);
+//                        notesArray.get(getAdapterPosition()).setChecked(false);
 //                        checkCount--;
 //                        Log.e("unchecked", "onCheckedChanged: " + checkCount);
 //                    } else {
 //                        checkBox.setChecked(true);
 //                        checkCount++;
-//                        categories.get(getAdapterPosition()).setChecked(true);
+//                        notesArray.get(getAdapterPosition()).setChecked(true);
 //                        Log.e("Checked", "onCheckedChanged: " + checkCount);
 //                    }
 //
-//                    if (checkCount == categories.size()) {
+//                    if (checkCount == notesArray.size()) {
 //                        onListItemClickListeners.onListAllChecked(true);
 //                    } else {
 //                        onListItemClickListeners.onListAllChecked(false);

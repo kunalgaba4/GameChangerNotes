@@ -11,22 +11,30 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.goodcompany.gamechangernotes.Activities.NotesActivity;
 import com.goodcompany.gamechangernotes.Listeners.OnListItemClickListeners;
 import com.goodcompany.gamechangernotes.Modals.Note;
 import com.goodcompany.gamechangernotes.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder> {
     private Context mContext;
     OnListItemClickListeners onListItemClickListeners;
-    ArrayList<Note> categories;
+    ArrayList<Note> notesArray;
     private boolean isSelectedAll;
     private int checkCount;
+    private NotesActivity notesActivity;
+    ArrayList<Note> allNotes;
+
 
 
     public NotesListAdapter(Context mContext, ArrayList subjectList, OnListItemClickListeners onListItemClickListeners) {
-        this.categories = subjectList;
+        this.notesArray = subjectList;
+        allNotes =  new ArrayList<>();
+        allNotes.addAll(notesArray);
+        notesActivity = (NotesActivity) mContext;
         this.mContext = mContext;
         this.onListItemClickListeners = onListItemClickListeners;
     }
@@ -38,12 +46,16 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
         return new NotesListAdapter.NotesListViewHolder(rootView);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull final NotesListAdapter.NotesListViewHolder holder, final int position) {
-        holder.title_tv.setText(categories.get(position).getNoteTitle());
+        holder.title_tv.setText(notesArray.get(position).getNoteTitle());
         holder.title_tv.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "fonts/SF-UI-DISPLAY-BOLD.OTF"));
+        holder.date_tv.setText(notesArray.get(position).getDateTime());
+        holder.date_tv.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "fonts/SF-UI-DISPLAY-BOLD.OTF"));
 
-//        if (categories.get(position).getChecked()) {
+//        if (notesArray.get(position).getChecked()) {
 //            holder.checkBox.setChecked(true);
 //        } else {
 //            holder.checkBox.setChecked(false);
@@ -58,11 +70,11 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
 
     @Override
     public int getItemCount() {
-        return categories.size();
+        return notesArray.size();
     }
 
     public void deleteItem(int index) {
-        categories.remove(index);
+        notesArray.remove(index);
         notifyItemRemoved(index);
     }
 
@@ -72,21 +84,37 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
     }
 
 
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        notesActivity.savedNoteArrayList.clear();
+        if (charText.length() == 0) {
+            notesActivity.savedNoteArrayList.addAll(allNotes);
+        } else {
+            for (Note wp: allNotes){
+                if (wp.getNoteTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    notesActivity.savedNoteArrayList.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+
 //    public void selectAll() {
 //        isSelectedAll = true;
-//        for (int i = 0; i < categories.size(); i++) {
-//            categories.get(i).setChecked(true);
+//        for (int i = 0; i < notesArray.size(); i++) {
+//            notesArray.get(i).setChecked(true);
 //            checkCount++;
 //        }
 //        notifyDataSetChanged();
-//        checkCount= categories.size();
+//        checkCount= notesArray.size();
 //    }
 
 //    public StringBuilder getCheckItemsId() {
 //        StringBuilder idsBuilder = new StringBuilder();
-//        for (int i = 0; i < categories.size(); i++) {
-//            if (categories.get(i).getChecked()) {
-//                idsBuilder.append(",").append(categories.get(i).getId());
+//        for (int i = 0; i < notesArray.size(); i++) {
+//            if (notesArray.get(i).getChecked()) {
+//                idsBuilder.append(",").append(notesArray.get(i).getId());
 //            }
 //        }
 //        idsBuilder.deleteCharAt(0);
@@ -95,7 +123,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
 //    }
 
     public class NotesListViewHolder extends RecyclerView.ViewHolder {
-        private TextView title_tv;
+        private TextView title_tv,date_tv;
         private CheckBox checkBox;
         private ImageView delete_iv, edit_iv;
 
@@ -105,22 +133,24 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
             checkBox = itemView.findViewById(R.id.desc_check_box);
             delete_iv = itemView.findViewById(R.id.delete_iv);
             edit_iv = itemView.findViewById(R.id.edit_iv);
+            date_tv = itemView.findViewById(R.id.date_tv);
+
 //            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //                @Override
 //                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                    if (categories.get(getAdapterPosition()).getChecked()) {
+//                    if (notesArray.get(getAdapterPosition()).getChecked()) {
 //                        checkBox.setChecked(false);
-//                        categories.get(getAdapterPosition()).setChecked(false);
+//                        notesArray.get(getAdapterPosition()).setChecked(false);
 //                        checkCount--;
 //                        Log.e("unchecked", "onCheckedChanged: " + checkCount);
 //                    } else {
 //                        checkBox.setChecked(true);
 //                        checkCount++;
-//                        categories.get(getAdapterPosition()).setChecked(true);
+//                        notesArray.get(getAdapterPosition()).setChecked(true);
 //                        Log.e("Checked", "onCheckedChanged: " + checkCount);
 //                    }
 //
-//                    if (checkCount == categories.size()) {
+//                    if (checkCount == notesArray.size()) {
 //                        onListItemClickListeners.onListAllChecked(true);
 //                    } else {
 //                        onListItemClickListeners.onListAllChecked(false);
@@ -139,14 +169,14 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
             delete_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onListItemClickListeners.onListItemDelted("" + categories.get(getAdapterPosition()).getNoteId(), getAdapterPosition());
+                    onListItemClickListeners.onListItemDelted("" + notesArray.get(getAdapterPosition()).getNoteId(), getAdapterPosition());
                 }
             });
 
             edit_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onListItemClickListeners.onListItemEdited("" + categories.get(getAdapterPosition()).getNoteId(), getAdapterPosition(), "");
+                    onListItemClickListeners.onListItemEdited("" + notesArray.get(getAdapterPosition()).getNoteId(), getAdapterPosition(), "");
                 }
             });
         }
