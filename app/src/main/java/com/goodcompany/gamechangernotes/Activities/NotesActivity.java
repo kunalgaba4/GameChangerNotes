@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -87,6 +86,7 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
 
 
     private void setupDescAdapter() {
+        savedNoteArrayList.clear();
         savedNoteArrayList = dbNote.getNoteOfSubject(this, subjectName);
         if (savedNoteArrayList.size() > 0){
             noEventIv.setVisibility(View.INVISIBLE);
@@ -154,7 +154,6 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
             }
         });
 
-
         AlertDialog mAlertDialog = alertDialogBuilder.create();
         mAlertDialog.show();
 
@@ -172,13 +171,12 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
 
     @Override
     public void onItemClicked(String id, int adapterPos) {
-
         Intent intentToEditNote = new Intent(getApplicationContext(), AddNote.class);
         Bundle editNoteBundle = new Bundle();
         editNoteBundle.putBoolean("isEdit", true);
         editNoteBundle.putSerializable("NoteData", savedNoteArrayList.get(adapterPos));
         intentToEditNote.putExtras(editNoteBundle);
-        startActivity(intentToEditNote);
+        startActivityForResult(intentToEditNote, 45);
     }
 
     @Override

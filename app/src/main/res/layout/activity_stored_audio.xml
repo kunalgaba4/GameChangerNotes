@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.StoreAudioActivity">
+    tools:context=".Activities.StoredAudioActivity">
 
 
     <Button
@@ -40,18 +40,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnRecord"
-
         android:layout_alignParentRight="true"
         android:layout_marginTop="52dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="80dp"
-
-        android:text="Stop"
-        >
-
+        android:text="Stop">
     </Button>
 
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnStop"
+        android:layout_marginLeft="80dp"
+        android:text="Save" />
+
+    <Button
+        android:id="@+id/btn_stop_rec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnStop"
+        android:layout_toRightOf="@id/btn_save"
+        android:layout_marginLeft="70dp"
+        android:text="Stop Recording" />
 
 
 

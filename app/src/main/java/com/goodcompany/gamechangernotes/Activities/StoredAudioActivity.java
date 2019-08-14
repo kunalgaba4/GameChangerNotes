@@ -27,7 +27,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class StoredAudioActivity extends AppCompatActivity {
 
-    Button btnRecod, btnStop, btnPlay;
+    Button btnRecod, btnStop, btnPlay, btnSave, btn_stop_rec;
     String audioSavePathInDevice = null;
     MediaRecorder mediaRecorder ;
     Random random ;
@@ -42,24 +42,32 @@ public class StoredAudioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stored_audio);
-
-        btnPlay = (Button) findViewById(R.id.btnPlay);
-        btnRecod = (Button) findViewById(R.id.btnRecord);
-        btnStop = (Button) findViewById(R.id.btnStop);
-
+        btnPlay = findViewById(R.id.btnPlay);
+        btnRecod = findViewById(R.id.btnRecord);
+        btnStop =  findViewById(R.id.btnStop);
+        btnSave  = findViewById(R.id.btn_save);
+        btn_stop_rec = findViewById(R.id.btn_stop_rec);
         random = new Random();
-
         Intent intent = getIntent();
         audioURL = intent.getExtras().getString("audiourl");
         isEdit = getIntent().getExtras().getBoolean("isEdit");
 
         if (isEdit){
-            btnPlay.setEnabled(true);
-            audioSavePathInDevice = audioURL;
+            if (audioURL!=null){
+                btnPlay.setEnabled(true);
+                btnSave.setEnabled(false);
+                btn_stop_rec.setEnabled(false);
+                btnStop.setEnabled(true);
+                audioSavePathInDevice = audioURL;
+            }else {
+                btnPlay.setEnabled(false);
+                btn_stop_rec.setEnabled(true);
+                RandomAudioFileName = "audio_file";
+            }
+
         }else{
             btnStop.setEnabled(false);
             btnPlay.setEnabled(false);
-
             RandomAudioFileName = "audio_file";
         }
 
@@ -107,13 +115,14 @@ public class StoredAudioActivity extends AppCompatActivity {
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaRecorder.stop();
-                btnStop.setEnabled(false);
-                btnPlay.setEnabled(true);
-                btnRecod.setEnabled(true);
-
-                Toast.makeText(StoredAudioActivity.this, "Recording Completed",
-                        Toast.LENGTH_LONG).show();
+                if (mediaRecorder!=null){
+                    mediaRecorder.stop();
+                    btnStop.setEnabled(false);
+                    btnPlay.setEnabled(true);
+                    btnRecod.setEnabled(true);
+                    Toast.makeText(StoredAudioActivity.this, "Recording Completed",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -124,19 +133,27 @@ public class StoredAudioActivity extends AppCompatActivity {
                     btnStop.setEnabled(true);
                     btnRecod.setEnabled(false);
                     btnPlay.setEnabled(false);
-
                     mediaPlayer = new MediaPlayer();
                     try {
                         mediaPlayer.setDataSource(audioSavePathInDevice);
                         mediaPlayer.prepare();
-                    } catch (IOException e) {
+                        mediaPlayer.start();
+
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                    mediaPlayer.start();
-                    Toast.makeText(StoredAudioActivity.this, "Recording Playing",
-                            Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AudioSingleton audioSingleton = AudioSingleton.getInstance();
+                audioSingleton.setAudioUrl(audioSavePathInDevice);
+                Intent intent = new Intent(StoredAudioActivity.this, AddNote.class);
+                startActivity(intent);
+                finish();
             }
         });
 

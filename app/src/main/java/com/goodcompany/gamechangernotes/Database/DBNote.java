@@ -50,9 +50,9 @@ public class DBNote {
         contentValues.put(LATITUDE, note.getLatitude());
         contentValues.put(LONGITUDE, note.getLongitude());
         contentValues.put(IMAGE_ID, note.getImageId());
-        contentValues.put(IMAGE_1, note.getImageId());
-        contentValues.put(IMAGE_2, note.getImageId());
-        contentValues.put(IMAGE_3, note.getImageId());
+        contentValues.put(IMAGE_1, note.getImage1());
+        contentValues.put(IMAGE_2, note.getImage2());
+        contentValues.put(IMAGE_3, note.getImage3());
 
         database.insert(TABLE_NOTE, null, contentValues);
         database.close();
@@ -72,9 +72,9 @@ public class DBNote {
         contentValues.put(LATITUDE, note.getLatitude());
         contentValues.put(LONGITUDE, note.getLongitude());
         contentValues.put(IMAGE_ID, note.getImageId());
-        contentValues.put(IMAGE_1, note.getImageId());
-        contentValues.put(IMAGE_2, note.getImageId());
-        contentValues.put(IMAGE_3, note.getImageId());
+        contentValues.put(IMAGE_1, note.getImage1());
+        contentValues.put(IMAGE_2, note.getImage2());
+        contentValues.put(IMAGE_3, note.getImage3());
 
         database.update(TABLE_NOTE, contentValues, NOTE_ID + "=?", new String[]{String.valueOf(note.getNoteId())});
         database.close();
@@ -125,9 +125,6 @@ public class DBNote {
                     note.setImage1(cursor.getString(9));
                     note.setImage2(cursor.getString(10));
                     note.setImage3(cursor.getString(11));
-
-
-
                     Log.d("AllNoteData", note.getNoteTitle());
                     noteArrayList.add(note);
                 }
