@@ -18,6 +18,11 @@ public class Note implements Serializable {
     private String image3;
 
 
+
+    private String toDoItems;
+
+
+
     public Note(){
 
     }
@@ -27,7 +32,7 @@ public class Note implements Serializable {
         this.noteContent = noteContent;
     }
 
-    public Note(String subjectName, int noteId, String noteTitle, String noteContent, String audio, String dateTime, double latitude, double longitude, int imageId) {
+    public Note(String subjectName, int noteId, String noteTitle, String noteContent, String audio, String dateTime, double latitude, double longitude, int imageId, String toDoItems) {
         this.subjectName = subjectName;
         this.noteId = noteId;
         this.noteTitle = noteTitle;
@@ -37,6 +42,16 @@ public class Note implements Serializable {
         this.latitude = latitude;
         this.longitude = longitude;
         this.imageId = imageId;
+        this.toDoItems = toDoItems;
+    }
+
+
+    public String getToDoItems() {
+        return toDoItems;
+    }
+
+    public void setToDoItems(String toDoItems) {
+        this.toDoItems = toDoItems;
     }
 
     public String getSubjectName() {

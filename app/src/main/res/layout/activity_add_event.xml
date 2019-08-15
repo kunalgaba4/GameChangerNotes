@@ -1,0 +1,359 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:fillViewport="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="iapp.iapptechnologies.familycalendar.Fragments.CalendarViewFragment">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_h_0.12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.12" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_h_0.13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.13" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_h_0.30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.30" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_h_0.47"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.47" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_h_0.64"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.78" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_h_0.81"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.87" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_v_0.03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_v_0.02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.02" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_v_0.05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_v_0.97"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.97" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_v_0.98"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.98" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_v_0.95"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_v_0.70"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.62" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_v_0.50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.50" />
+
+        <ImageView
+            android:id="@+id/yes_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/chcek"
+            app:layout_constraintBottom_toBottomOf="@id/gl_h_0.12"
+            app:layout_constraintRight_toLeftOf="@id/gl_v_0.97"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/event_top_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Add new list"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:layout_marginLeft="@dimen/one_dp"
+            app:layout_constraintBottom_toTopOf="@id/gl_h_0.12"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.03"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/enter_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:text="Enter Title"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.05"
+            app:layout_constraintTop_toBottomOf="@id/gl_h_0.13" />
+
+        <EditText
+            android:id="@+id/title_et"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:background="@drawable/back_for_events"
+            android:hint="Enter your title here"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="@dimen/ten_dp"
+            android:paddingLeft="@dimen/ten_dp"
+            android:imeOptions="actionDone"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.05"
+            app:layout_constraintRight_toLeftOf="@id/gl_v_0.95"
+            app:layout_constraintTop_toBottomOf="@id/enter_title_tv" />
+
+        <TextView
+            android:id="@+id/scheduled_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:text="Scheduled"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.05"
+            app:layout_constraintTop_toBottomOf="@id/title_et" />
+
+        <ImageView
+            android:id="@+id/schedule_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:src="@drawable/uncheckbox"
+            app:layout_constraintBottom_toBottomOf="@id/scheduled_tv"
+            app:layout_constraintLeft_toRightOf="@id/scheduled_tv"
+            app:layout_constraintTop_toTopOf="@id/scheduled_tv" />
+
+        <RelativeLayout
+            android:id="@+id/alarm_rl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/three_dp"
+            android:layout_marginTop="@dimen/ten_sp"
+            android:background="@drawable/back_for_events"
+            android:padding="9dp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.05"
+            app:layout_constraintRight_toLeftOf="@id/gl_v_0.50"
+            app:layout_goneMarginRight="@dimen/twenty_dp"
+            app:layout_constraintTop_toBottomOf="@id/scheduled_tv">
+
+            <TextView
+                android:id="@+id/from_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/one_dp"
+                android:hint="Today 5:00 PM"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/list_items_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/one_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:text="List items"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.03"
+            app:layout_constraintTop_toBottomOf="@id/alarm_rl" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/items_rv"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:visibility="visible"
+            android:layout_marginLeft="@dimen/ten_dp"
+            app:layout_constraintBottom_toTopOf="@id/gl_h_0.64"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.03"
+            app:layout_constraintRight_toLeftOf="@id/gl_v_0.97"
+            app:layout_constraintTop_toBottomOf="@id/list_items_tv" />
+
+        <com.goodcompany.gamechangernotes.Utils.ShadowLayout
+            android:id="@+id/set_alarms_sl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/five_dp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.50"
+            android:layout_marginLeft="@dimen/fifteen_dp"
+            app:layout_constraintRight_toLeftOf="@id/gl_v_0.98"
+            app:layout_constraintTop_toBottomOf="@id/scheduled_tv"
+            app:sl_shadow_angle="90"
+            app:sl_shadow_color="@color/week_view_shadow"
+            app:sl_shadow_distance="5dp"
+            app:sl_shadow_radius="@dimen/five_dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/delete_event_background"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/set_alarms_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:letterSpacing="0.1"
+                    android:padding="@dimen/eight_dp"
+                    android:textSize="13sp"
+                    android:text="SET ALARMS"
+                    android:textColor="@color/md_white_1000" />
+            </RelativeLayout>
+        </com.goodcompany.gamechangernotes.Utils.ShadowLayout>
+
+        <FrameLayout
+            android:id="@+id/add_item_fl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.05"
+            app:layout_constraintRight_toLeftOf="@id/gl_v_0.95"
+            app:layout_constraintTop_toBottomOf="@id/gl_h_0.64"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/add_item_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back_for_events"
+                android:hint="Enter item name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+                android:padding="@dimen/eight_dp"
+                android:paddingLeft="@dimen/ten_dp"
+                android:textSize="15sp"
+                app:layout_constraintHorizontal_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/done_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="@dimen/ten_dp"
+                android:visibility="gone"
+                android:src="@drawable/check"/>
+        </FrameLayout>
+
+        <com.goodcompany.gamechangernotes.Utils.ShadowLayout
+            android:id="@+id/add_items_sl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/ten_dp"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.02"
+            app:layout_constraintRight_toLeftOf="@id/gl_v_0.98"
+            app:layout_constraintTop_toBottomOf="@id/add_item_fl"
+            app:sl_shadow_angle="90"
+            app:sl_shadow_color="@color/active_list_shadow"
+            app:sl_shadow_distance="5dp"
+            android:layout_marginTop="@dimen/five_dp"
+            app:sl_shadow_radius="@dimen/five_dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/manage_alarms_background"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/add_items_tv"
+                    android:src="@drawable/add4" />
+
+                <TextView
+                    android:id="@+id/add_items_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:letterSpacing="0.1"
+                    android:padding="@dimen/twelve_dp"
+                    android:text="ADD ITEMS"
+                    android:textColor="@color/md_white_1000" />
+            </RelativeLayout>
+        </com.goodcompany.gamechangernotes.Utils.ShadowLayout>
+
+        <TextView
+            android:id="@+id/back_to_cal_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:text="Back to List View"
+            android:visibility="visible"
+            app:layout_constraintLeft_toRightOf="@id/gl_v_0.05"
+            app:layout_constraintRight_toLeftOf="@id/gl_v_0.95"
+            app:layout_constraintTop_toBottomOf="@id/add_items_sl" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
+
+
+

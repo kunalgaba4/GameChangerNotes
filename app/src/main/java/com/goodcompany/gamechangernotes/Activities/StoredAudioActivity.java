@@ -55,19 +55,23 @@ public class StoredAudioActivity extends AppCompatActivity {
         if (isEdit){
             if (audioURL!=null){
                 btnPlay.setEnabled(true);
+                btnStop.setEnabled(false);
                 btnSave.setEnabled(false);
                 btn_stop_rec.setEnabled(false);
-                btnStop.setEnabled(true);
                 audioSavePathInDevice = audioURL;
             }else {
                 btnPlay.setEnabled(false);
-                btn_stop_rec.setEnabled(true);
+                btnStop.setEnabled(false);
+                btn_stop_rec.setEnabled(false);
+                btnSave.setEnabled(false);
                 RandomAudioFileName = "audio_file";
             }
 
         }else{
             btnStop.setEnabled(false);
             btnPlay.setEnabled(false);
+            btnSave.setEnabled(false);
+            btn_stop_rec.setEnabled(false);
             RandomAudioFileName = "audio_file";
         }
 
@@ -98,7 +102,8 @@ public class StoredAudioActivity extends AppCompatActivity {
                         }
 
                         btnRecod.setEnabled(true);
-                        btnStop.setEnabled(true);
+                        btn_stop_rec.setEnabled(true);
+                        // btnStop.setEnabled(true);
 
 
                         Toast.makeText(StoredAudioActivity.this, "Recording started",
@@ -111,16 +116,31 @@ public class StoredAudioActivity extends AppCompatActivity {
             }
         });
 
-
-        btnStop.setOnClickListener(new View.OnClickListener() {
+        btn_stop_rec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mediaRecorder!=null){
                     mediaRecorder.stop();
                     btnStop.setEnabled(false);
+                    btn_stop_rec.setEnabled(false);
                     btnPlay.setEnabled(true);
                     btnRecod.setEnabled(true);
+                    btnSave.setEnabled(true);
                     Toast.makeText(StoredAudioActivity.this, "Recording Completed",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mediaPlayer!=null){
+                    mediaPlayer.stop();
+                    btnStop.setEnabled(false);
+                    btnPlay.setEnabled(true);
+                    btnRecod.setEnabled(true);
+                    Toast.makeText(StoredAudioActivity.this, "Play Completed",
                             Toast.LENGTH_LONG).show();
                 }
             }

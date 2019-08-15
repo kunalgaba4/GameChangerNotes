@@ -61,6 +61,33 @@
             />
 
 
+        <com.goodcompany.gamechangernotes.Utils.ShadowLayout
+            android:id="@+id/save_sl"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:sl_shadow_angle="90"
+            app:sl_shadow_color="@color/month_view_shadow"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/ten_dp"
+            app:sl_shadow_distance="5dp"
+            app:sl_shadow_radius="@dimen/five_dp">
+
+        <TextView
+            android:id="@+id/save_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_month_view_background"
+            android:gravity="center"
+            android:letterSpacing="0.1"
+            android:padding="@dimen/twelve_dp"
+            android:text="Save"
+            android:textColor="@color/md_white_1000"
+            android:textSize="@dimen/twelve_sp" />
+        </com.goodcompany.gamechangernotes.Utils.ShadowLayout>
+
         <Button
             android:id="@+id/saveNote"
             android:layout_width="wrap_content"
@@ -72,6 +99,7 @@
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:text="Save"
+            android:visibility="gone"
             android:textColor="#fff" />
 
         <android.support.v7.widget.RecyclerView
@@ -82,22 +110,6 @@
             android:layout_marginBottom="60dp"
 
             />
-
-        <!--<HorizontalScrollView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="150dp"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:layout_below="@+id/txtNoteContent"-->
-        <!--android:scrollbars="none" >-->
-
-        <!--<LinearLayout-->
-        <!--android:id="@+id/id_gallery"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:orientation="horizontal" >-->
-        <!--</LinearLayout>-->
-        <!--</HorizontalScrollView>-->
 
 
     </RelativeLayout>
@@ -113,6 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            app:menu_colorNormal="@color/md_blue_800"
             android:layout_alignParentBottom="true">
 
 
@@ -121,6 +134,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="cameraButtonClick"
                 app:fab_label="Camera"
+                app:fab_colorNormal="@color/md_blue_800"
                 android:src="@drawable/ic_camera_alt_black_24dp"
                 app:fab_size="mini" />
 
@@ -130,6 +144,7 @@
                 android:onClick="galleryButtonClick"
                 app:fab_label="Gallery"
                 android:src="@drawable/ic_photo_black_24dp"
+                app:fab_colorNormal="@color/md_blue_800"
                 app:fab_size="mini" />
 
             <com.github.clans.fab.FloatingActionButton
@@ -138,6 +153,7 @@
                 android:onClick="audioButtonClick"
                 app:fab_label="Audio"
                 android:src="@drawable/ic_audiotrack_black_24dp"
+                app:fab_colorNormal="@color/md_blue_800"
                 app:fab_size="mini" />
 
             <com.github.clans.fab.FloatingActionButton
@@ -147,6 +163,7 @@
                 android:onClick="mapButtonClick"
                 app:fab_label="Map"
                 android:src="@drawable/ic_location_on_black_24dp"
+                app:fab_colorNormal="@color/md_blue_800"
                 app:fab_size="mini" />
 
         </com.github.clans.fab.FloatingActionMenu>

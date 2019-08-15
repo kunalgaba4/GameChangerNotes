@@ -41,7 +41,7 @@
                 android:src="@drawable/setting" />
         </RelativeLayout>
 
-        <!--List-->
+
         <LinearLayout
             android:id="@+id/active_list_parent_ll"
             android:layout_width="match_parent"
@@ -52,8 +52,117 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
+            <com.goodcompany.gamechangernotes.Utils.ShadowLayout
+                android:id="@+id/active_sl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:sl_shadow_angle="90"
+                app:sl_shadow_color="@color/active_list_shadow"
+                app:sl_shadow_distance="5dp"
+                app:sl_shadow_radius="@dimen/five_dp">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/active_list_background"
+                    android:gravity="center"
+                    android:padding="@dimen/five_dp">
+
+                    <TextView
+                        android:id="@+id/active_list_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:letterSpacing="0.05"
+                        android:paddingTop="@dimen/two_dp"
+                        android:text="All"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/list_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/active_list_tv"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:letterSpacing="0.05"
+                        android:text="Notes"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="@dimen/sixteen_sp" />
+
+                    <ImageView
+                        android:id="@+id/active_tick_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/list_tv"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/active_list_tv"
+                        android:src="@drawable/checked"
+                        android:visibility="invisible"/>
+                </RelativeLayout>
+
+            </com.goodcompany.gamechangernotes.Utils.ShadowLayout>
+
+            <com.goodcompany.gamechangernotes.Utils.ShadowLayout
+                android:id="@+id/upcoming_events_sl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:sl_shadow_angle="90"
+                app:sl_shadow_color="@color/red_shadow"
+                app:sl_shadow_distance="5dp"
+                app:sl_shadow_radius="@dimen/five_dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/upcoming_events_background"
+                    android:gravity="center"
+                    android:padding="@dimen/five_dp">
+
+                    <TextView
+                        android:id="@+id/upcoming_list_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:letterSpacing="0.05"
+                        android:paddingTop="@dimen/two_dp"
+                        android:text="All"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/events_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/upcoming_list_tv"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:letterSpacing="0.05"
+                        android:text="Categories"
+                        android:textColor="@color/md_white_1000"
+                        android:textSize="@dimen/sixteen_sp" />
+
+                    <ImageView
+                        android:id="@+id/upcoming_tick_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/events_tv"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/upcoming_list_tv"
+                        android:src="@drawable/upcoming"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+
+            </com.goodcompany.gamechangernotes.Utils.ShadowLayout>
         </LinearLayout>
+
+
+
         <!--Recycler for list-->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/categories_rv"
@@ -64,6 +173,17 @@
             android:layout_marginRight="@dimen/ten_dp"
             android:layout_marginTop="@dimen/five_dp"
             android:visibility="visible">
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/notes_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/active_list_parent_ll"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:visibility="gone">
         </android.support.v7.widget.RecyclerView>
 
         <!--Add event-->

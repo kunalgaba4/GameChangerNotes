@@ -80,6 +80,9 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
         setContentView(R.layout.activity_notes);
         ButterKnife.bind(this);
         mContext = NotesActivity.this;
+        ArrayList<Note> check = new ArrayList<>();
+        check = dbNote.getAllNote(mContext);
+
 
         if (getIntent().getExtras() != null) {
             subjectName = getIntent().getExtras().get("SubjectName").toString();
@@ -118,12 +121,6 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.settings_iv:
-                Collections.sort(savedNoteArrayList, new Comparator<Note>() {
-                    public int compare(Note o1, Note o2) {
-                        return o1.getDateTime().compareTo(o2.getDateTime());
-                    }
-                });
-                notesListAdapter.notifyDataSetChanged();
                 break;
             case R.id.etSearch:
                 break;
@@ -211,33 +208,52 @@ public class NotesActivity extends AppCompatActivity implements OnListItemClickL
     @OnClick(R.id.spinner_sl)
     public void onViewClicked() {
 
-//        clickCount++;
-//        if (clickCount == 0) {
-//            setupOrderByDate();
-//        } else if (clickCount == 1) {
-//            setupOrderByTitle();
-//        } else if (clickCount == 2) {
-//            setupOrderByDesc();
-//            clickCount = -1;
-//
-//        }
+        clickCount++;
+        if (clickCount == 0) {
+            setupOrderByDate();
+        } else if (clickCount == 1) {
+            setupOrderByTitle();
+        } else if (clickCount == 2) {
+            setupOrderByDesc();
+            clickCount = -1;
+
+        }
     }
 
-//    private void setupOrderByDesc() {
-//        spinnerParentRl1.setBackgroundResource(R.drawable.custom_daily_view_background);
-//        spinnerSl.setShadowColor(getResources().getColor(R.color.daily_view_shadow));
-//        mdwViewTv.setText("By Desc");
-//    }
-//
-//    private void setupOrderByTitle() {
-//        spinnerParentRl1.setBackgroundResource(R.drawable.custom_daily_view_background);
-//        spinnerSl.setShadowColor(getResources().getColor(R.color.daily_view_shadow));
-//        mdwViewTv.setText("By Title");
-//    }
-//
-//    private void setupOrderByDate() {
-//        spinnerParentRl1.setBackgroundResource(R.drawable.custom_daily_view_background);
-//        spinnerSl.setShadowColor(getResources().getColor(R.color.daily_view_shadow));
-//        mdwViewTv.setText("By Date");
-//    }
+    private void setupOrderByDesc() {
+        spinnerParentRl1.setBackgroundResource(R.drawable.custom_daily_view_background);
+        spinnerSl.setShadowColor(getResources().getColor(R.color.daily_view_shadow));
+        mdwViewTv.setText("BY DESC");
+        Collections.sort(savedNoteArrayList, new Comparator<Note>() {
+            public int compare(Note o1, Note o2) {
+                return o1.getNoteContent().compareTo(o2.getNoteContent());
+            }
+        });
+        notesListAdapter.notifyDataSetChanged();
+    }
+
+    private void setupOrderByTitle() {
+        spinnerParentRl1.setBackgroundResource(R.drawable.custom_daily_view_background);
+        spinnerSl.setShadowColor(getResources().getColor(R.color.daily_view_shadow));
+        mdwViewTv.setText("BY TITLE");
+
+        Collections.sort(savedNoteArrayList, new Comparator<Note>() {
+            public int compare(Note o1, Note o2) {
+                return o1.getNoteTitle().compareTo(o2.getNoteTitle());
+            }
+        });
+        notesListAdapter.notifyDataSetChanged();
+    }
+
+    private void setupOrderByDate() {
+        spinnerParentRl1.setBackgroundResource(R.drawable.custom_daily_view_background);
+        spinnerSl.setShadowColor(getResources().getColor(R.color.daily_view_shadow));
+        mdwViewTv.setText("BY DATE");
+        Collections.sort(savedNoteArrayList, new Comparator<Note>() {
+            public int compare(Note o1, Note o2) {
+                return o1.getDateTime().compareTo(o2.getDateTime());
+            }
+        });
+        notesListAdapter.notifyDataSetChanged();
+    }
 }

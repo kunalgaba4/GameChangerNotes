@@ -21,17 +21,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.goodcompany.gamechangernotes.Adapters.MyRecyclerViewAdapter;
 import com.goodcompany.gamechangernotes.Database.DBImage;
 import com.goodcompany.gamechangernotes.Database.DBNote;
@@ -40,7 +37,7 @@ import com.goodcompany.gamechangernotes.Modals.Note;
 import com.goodcompany.gamechangernotes.R;
 import com.goodcompany.gamechangernotes.Singelton.AudioSingleton;
 import com.goodcompany.gamechangernotes.Singelton.SubjectSingleton;
-import com.goodcompany.gamechangernotes.Utils.Constants;
+import com.goodcompany.gamechangernotes.Utils.ShadowLayout;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
@@ -64,10 +61,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
     private static final String IMAGE_DIRECTORY = "/dailynote";
+    @BindView(R.id.save_tv)
+    TextView saveTv;
+    @BindView(R.id.save_sl)
+    ShadowLayout saveSl;
     private int GALLERY = 1, CAMERA = 2;
     Button saveNote;
     EditText txtNoteTitle;
@@ -111,6 +116,7 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
+        ButterKnife.bind(this);
         saveNote = findViewById(R.id.saveNote);
         txtNoteTitle = findViewById(R.id.txtNoteTitle);
         txtNoteContent = findViewById(R.id.txtNoteContent);
@@ -137,15 +143,15 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
             txtNoteContent.setText(noteIsEdit.getNoteContent());
             audioUrl = noteIsEdit.getAudio();
             recentLatLng = new LatLng(noteIsEdit.getLatitude(), noteIsEdit.getLongitude());
-            if (noteIsEdit.getImage1()!=null){
+            if (noteIsEdit.getImage1() != null) {
                 myImagesUrl.add(0, noteIsEdit.getImage1());
 
             }
-            if (noteIsEdit.getImage2()!=null){
+            if (noteIsEdit.getImage2() != null) {
                 myImagesUrl.add(0, noteIsEdit.getImage2());
 
             }
-            if (noteIsEdit.getImage3()!=null){
+            if (noteIsEdit.getImage3() != null) {
                 myImagesUrl.add(0, noteIsEdit.getImage3());
 
             }
@@ -153,38 +159,18 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
 
         }
 
-        /* save image */
-        saveNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isEdit) {
-                    //UPDATE Database
-                    getImageUrl();
-                    dbNote.updateNote(populateDataNote());
-                    Intent returnIntent = new Intent();
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
-//                    dbImage.updateImage(image);
-                } else {
-                    //SAVE Database
-                    getImageUrl();
-                    dbNote.insertNote(populateDataNote());
-//                    populateDataImage();
-                    Toast.makeText(AddNote.this, "Data saved", Toast.LENGTH_SHORT).show();
-                    Intent returnIntent = new Intent();
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
-                }
-            }
-        });
-
         mInflater = LayoutInflater.from(this);
-
         setupRecyclerView();
-
         audioSingleton = AudioSingleton.getInstance();
-        Toast.makeText(AddNote.this, "Name " + subjectName, Toast.LENGTH_SHORT).show();
 
+    }
+
+    private boolean checkNoteEntry() {
+        if (txtNoteTitle.getText().toString().isEmpty()){
+            Toast.makeText(this, "Title Cannot be Empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void getImageUrl() {
@@ -196,6 +182,11 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
 
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     public Note populateDataNote() {
@@ -309,7 +300,6 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
-                            Toast.makeText(getApplicationContext(), "Longitude" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
 
                         } else {
@@ -397,7 +387,7 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
 
     public void mapButtonClick(View view) {
         Intent intent = new Intent(AddNote.this, ShowUserLocationActivity.class);
-        Toast.makeText(this, recentLatLng.latitude + " "+ recentLatLng.longitude, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, recentLatLng.latitude + " " + recentLatLng.longitude, Toast.LENGTH_LONG).show();
         intent.putExtra("Latlng", recentLatLng);
         startActivity(intent);
     }
@@ -410,13 +400,13 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
     /* Take image from gallery and camera */
     public void choosePhotoFromGallary() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(galleryIntent, GALLERY);
     }
 
     private void takePhotoFromCamera() {
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA);
     }
 
@@ -518,6 +508,29 @@ public class AddNote extends AppCompatActivity implements MyRecyclerViewAdapter.
         Intent anotherIntent = new Intent(this, ShowFullImageActivity.class);
         anotherIntent.putExtra("image", byteArray);
         startActivity(anotherIntent);
+    }
+
+    @OnClick(R.id.save_tv)
+    public void onViewClicked() {
+        if (isEdit) {
+            if (checkNoteEntry()){
+                getImageUrl();
+                dbNote.updateNote(populateDataNote());
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+
+        } else {
+            if (checkNoteEntry()){
+                getImageUrl();
+                dbNote.insertNote(populateDataNote());
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+
+        }
     }
 
     /* Record Audio file */

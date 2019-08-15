@@ -8,7 +8,7 @@ import android.util.Log;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME  = "dbNotes";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String TAG = DBHelper.class.getCanonicalName();
 
     public DBHelper(Context context)
@@ -41,7 +41,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + DBNote.IMAGE_ID + " INTEGER default null,"
                 + DBNote.IMAGE_1 + " TEXT default null,"
                 + DBNote.IMAGE_2 + " TEXT default null,"
-                + DBNote.IMAGE_3 + " TEXT default null)";
+                + DBNote.IMAGE_3 + " TEXT default null,"
+                + DBNote.toDoItems + " TEXT default null)";
 
         sqLiteDatabase.execSQL(noteTable);
 
@@ -63,6 +64,8 @@ public class DBHelper extends SQLiteOpenHelper {
         // Drop older table if existed
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBSubject.TABLE_SUBJECT);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBNote.TABLE_NOTE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBImage.TABLE_IMAGE);
+
 
         // Create tables again
         onCreate(sqLiteDatabase);

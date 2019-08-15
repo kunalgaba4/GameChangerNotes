@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.NotesListViewHolder> {
+public class NotesMainAdapter extends RecyclerView.Adapter<NotesMainAdapter.NotesMainHolder> {
     private Context mContext;
     OnListItemClickListeners onListItemClickListeners;
     ArrayList<Note> notesArray;
@@ -35,31 +35,28 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
 
 
 
-    public NotesListAdapter(Context mContext, ArrayList subjectList, OnListItemClickListeners onListItemClickListeners) {
+    public NotesMainAdapter(Context mContext, ArrayList subjectList, OnListItemClickListeners onListItemClickListeners) {
         this.notesArray = subjectList;
         allNotes =  new ArrayList<>();
         allNotes.addAll(notesArray);
-        notesActivity = (NotesActivity) mContext;
         this.mContext = mContext;
         this.onListItemClickListeners = onListItemClickListeners;
     }
 
     @NonNull
     @Override
-    public NotesListAdapter.NotesListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public NotesMainAdapter.NotesMainHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(mContext).inflate(R.layout.custom_notes_row, parent, false);
-        return new NotesListAdapter.NotesListViewHolder(rootView);
+        return new NotesMainAdapter.NotesMainHolder(rootView);
     }
 
 
 
     @Override
-    public void onBindViewHolder(@NonNull final NotesListAdapter.NotesListViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final NotesMainAdapter.NotesMainHolder holder, final int position) {
+        holder.title_tv.setText(notesArray.get(position).getNoteTitle());
         holder.title_tv.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "fonts/SF-UI-DISPLAY-BOLD.OTF"));
         holder.date_tv.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "fonts/SF-UI-DISPLAY-BOLD.OTF"));
-        holder.title_tv.setText(notesArray.get(position).getNoteTitle());
-
-
         try {
             String dateStr = notesArray.get(position).getDateTime();
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -70,7 +67,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
             } else if (isToday(date)) {
                 holder.date_tv.setText("Today");
             } else {
-                SimpleDateFormat month_date = new SimpleDateFormat("MMMM dd ", Locale.getDefault());
+                SimpleDateFormat month_date = new SimpleDateFormat("MMMM dd , YYYY ", Locale.getDefault());
                 String month_name = month_date.format(date);
                 holder.date_tv.setText(month_name);
             }
@@ -90,6 +87,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
 
     }
 
+
     public static boolean isTomorrow(Date d) {
         return DateUtils.isToday(d.getTime() - DateUtils.DAY_IN_MILLIS);
     }
@@ -97,6 +95,16 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
     public static boolean isToday(Date d) {
         return DateUtils.isToday(d.getTime());
     }
+
+    public static void setBottomMargin(View view, int bottomMargin) {
+        if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, bottomMargin);
+            view.requestLayout();
+        }
+    }
+
+
 
     @Override
     public int getItemCount() {
@@ -114,41 +122,23 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
     }
 
 
-    public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-        notesActivity.savedNoteArrayList.clear();
-        if (charText.length() == 0) {
-            notesActivity.savedNoteArrayList.addAll(allNotes);
-        } else {
-            for (Note wp: allNotes){
-                if (wp.getNoteTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
-                    notesActivity.savedNoteArrayList.add(wp);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
 
-    public static void setBottomMargin(View view, int bottomMargin) {
-        if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, bottomMargin);
-            view.requestLayout();
-        }
-    }
 
-    public class NotesListViewHolder extends RecyclerView.ViewHolder {
+
+
+    public class NotesMainHolder extends RecyclerView.ViewHolder {
         private TextView title_tv,date_tv;
         private CheckBox checkBox;
         private ImageView delete_iv, edit_iv;
 
-        public NotesListViewHolder(final View itemView) {
+        public NotesMainHolder(final View itemView) {
             super(itemView);
             title_tv = itemView.findViewById(R.id.title_tv);
             checkBox = itemView.findViewById(R.id.desc_check_box);
             delete_iv = itemView.findViewById(R.id.delete_iv);
             edit_iv = itemView.findViewById(R.id.edit_iv);
             date_tv = itemView.findViewById(R.id.date_tv);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -173,3 +163,4 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
         }
     }
 }
+

@@ -27,6 +27,8 @@ public class DBNote {
     public static final String IMAGE_1 = "image1";
     public static final String IMAGE_2 = "image2";
     public static final String IMAGE_3 = "image3";
+    public static final String toDoItems = "items";
+
 
     private Context context;
     private DBHelper dbHelper;
@@ -53,6 +55,8 @@ public class DBNote {
         contentValues.put(IMAGE_1, note.getImage1());
         contentValues.put(IMAGE_2, note.getImage2());
         contentValues.put(IMAGE_3, note.getImage3());
+        contentValues.put(toDoItems, note.getToDoItems());
+
 
         database.insert(TABLE_NOTE, null, contentValues);
         database.close();
@@ -75,6 +79,7 @@ public class DBNote {
         contentValues.put(IMAGE_1, note.getImage1());
         contentValues.put(IMAGE_2, note.getImage2());
         contentValues.put(IMAGE_3, note.getImage3());
+        contentValues.put(toDoItems, note.getToDoItems());
 
         database.update(TABLE_NOTE, contentValues, NOTE_ID + "=?", new String[]{String.valueOf(note.getNoteId())});
         database.close();
@@ -125,7 +130,7 @@ public class DBNote {
                     note.setImage1(cursor.getString(9));
                     note.setImage2(cursor.getString(10));
                     note.setImage3(cursor.getString(11));
-                    Log.d("AllNoteData", note.getNoteTitle());
+                    note.setToDoItems(cursor.getString(12));
                     noteArrayList.add(note);
                 }
             }
@@ -164,10 +169,7 @@ public class DBNote {
                     note.setImage1(cursor.getString(9));
                     note.setImage2(cursor.getString(10));
                     note.setImage3(cursor.getString(11));
-
-
-
-                    Log.d("AllNoteData", note.getNoteTitle());
+                    note.setToDoItems(cursor.getString(12));
                     noteArrayList.add(note);
                 }
             }
@@ -182,7 +184,7 @@ public class DBNote {
         SQLiteDatabase database = dbHelper.getReadableDatabase();
 
 
-        String[] columns ={NOTE_ID, SUBJECT_NAME, NOTE_TITLE, NOTE_CONTENT, AUDIO, DATETIME, LATITUDE, LONGITUDE, IMAGE_ID, IMAGE_1, IMAGE_2, IMAGE_3};
+        String[] columns ={NOTE_ID, SUBJECT_NAME, NOTE_TITLE, NOTE_CONTENT, AUDIO, DATETIME, LATITUDE, LONGITUDE, IMAGE_ID, IMAGE_1, IMAGE_2, IMAGE_3, toDoItems};
 
         Cursor cursor = database.query(TABLE_NOTE,
                 columns,
@@ -211,9 +213,7 @@ public class DBNote {
                     note.setImage1(cursor.getString(9));
                     note.setImage2(cursor.getString(10));
                     note.setImage3(cursor.getString(11));
-
-
-                    Log.d("NoteDataWithSubject", (cursor.getColumnName(1)));
+                    note.setToDoItems(cursor.getString(12));
                     noteArrayList.add(note);
                 }
             }
@@ -228,7 +228,7 @@ public class DBNote {
         SQLiteDatabase database = dbHelper.getReadableDatabase();
 
 
-        String[] columns ={NOTE_ID, SUBJECT_NAME, NOTE_TITLE, NOTE_CONTENT, AUDIO, DATETIME, LATITUDE, LONGITUDE, IMAGE_ID, IMAGE_1, IMAGE_2, IMAGE_3};
+        String[] columns ={NOTE_ID, SUBJECT_NAME, NOTE_TITLE, NOTE_CONTENT, AUDIO, DATETIME, LATITUDE, LONGITUDE, IMAGE_ID, IMAGE_1, IMAGE_2, IMAGE_3, toDoItems};
 
         Cursor cursor = database.query(TABLE_NOTE,
                 columns,
@@ -257,9 +257,7 @@ public class DBNote {
                     note.setImage1(cursor.getString(9));
                     note.setImage2(cursor.getString(10));
                     note.setImage3(cursor.getString(11));
-
-
-                    Log.d("NoteDataWithSubject", (cursor.getColumnName(1)));
+                    note.setToDoItems(cursor.getString(12));
                     noteArrayList.add(note);
                 }
             }

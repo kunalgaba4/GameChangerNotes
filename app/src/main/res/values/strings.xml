@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">GameChangerNotes</string>
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_password">Enter the password</string>
+    <string name="cnf_msg_password">Password does not match</string>
+    <string name="err_msg_username">Enter your valid username or email</string>
+    <string name="err_pass_length">Minimum 6 characters required</string>
+    <string name="err_pass_title">Enter Valid title</string>
+    <string name="err_pass_notes">Enter Valid notes</string>
 </resources>
